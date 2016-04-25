@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Mapper</title>
+        <style>
+            body {
+                background-color: black;
+                color: green;
+                font-family: monospace;
+            }
+            h1 {
+                font-size: 50px;
+            }
+            p {
+                font-size: 18px;
+            }
+            #container {
+                display: flex;
+                flex-direction: row;
+            }
+            #right-container {
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+            }
+            #messages {
+                flex: 1;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="container">
+            <canvas id="map" height="600" width="600"></canvas>
+            <div id="right-container">
+                <h1>Mapping robot</h1>
+                <div id="messages"></div>
+                <h2 id="start" onclick="socket.emit('start')">Start robot</h2>
+                <h2 id="stop" onclick="socket.emit('stop')">Stop robot</h2>
+                <h2 id="reset" onclick="socket.emit('reset')">Reset robot</h2>
+                <h2 id="end" onclick="socket.emit('end')">End server and robot</h2>
+            </div>
+        </div>
+        <script src="/socket.io/socket.io.js"></script>
+        <script>
+            var socket = io();
+            socket.on('message', addMessage);
+
+            function addMessage(msg) {
+                var el = document.createElement('p');
+                el.textContent = msg;
+                var messages = document.querySelector('#messages');
+                messages.appendChild(el);
+                if (messages.children.length > 5) {
+                    messages.removeChild(messages.querySelector('*'));
+                }
+            }
+        </script>
+    </body>
+</html>
