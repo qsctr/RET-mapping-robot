@@ -25,7 +25,7 @@ Board.requestPort((err, port) => {
         console.log('Arduino connected');
         console.log('Setting up robot...');
 
-        let ledPin = 13;
+        const ledPin = 13;
         setupRobot();
 
         console.log('Finished setting up robot');
