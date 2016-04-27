@@ -18,7 +18,7 @@ Board.requestPort((err, port) => {
     console.log('Port found: ' + port.comName);
     console.log('Connecting to Arduino...');
 
-    let arduino = new Board(port.comName);
+    const arduino = new Board(port.comName);
 
     arduino.on('ready', () => {
 
@@ -26,6 +26,7 @@ Board.requestPort((err, port) => {
         console.log('Setting up robot...');
 
         const ledPin = 13;
+        let pingInterval;
         setupRobot();
 
         console.log('Finished setting up robot');
@@ -86,22 +87,28 @@ Board.requestPort((err, port) => {
 
         app.get('/', (req, res) => res.sendFile(__dirname + '/index.html'));
 
-        io.on('connection', socket => socket.emit('message', 'Connected'));
+        io.on('connection', socket => socket.emit('message', 'Connected to server'));
 
         function message(m) {
             io.emit('message', m);
         }
 
         function setupRobot() {
-            arduino.pinMode(ledPin, board.MODES.OUTPUT);
+            arduino.pinMode(ledPin, arduino.MODES.OUTPUT);
         }
 
         function startRobot() {
             arduino.digitalWrite(ledPin, 1);
+            pingInterval = setInterval(() => arduino.pingRead({
+                pin: 7,
+                value: 1,
+                pulseOut: 5
+            }, ms => console.log('duration is ' + ms)), 500);
         }
 
         function stopRobot() {
             arduino.digitalWrite(ledPin, 0);
+            clearInterval(pingInterval);
         }
 
     });

@@ -35,10 +35,6 @@
             <div id="right-container">
                 <h1>Mapping robot</h1>
                 <div id="messages"></div>
-                <h2 id="start" onclick="socket.emit('start')">Start robot</h2>
-                <h2 id="stop" onclick="socket.emit('stop')">Stop robot</h2>
-                <h2 id="reset" onclick="socket.emit('reset')">Reset robot</h2>
-                <h2 id="end" onclick="socket.emit('end')">End server and robot</h2>
             </div>
         </div>
         <script src="/socket.io/socket.io.js"></script>
@@ -51,7 +47,7 @@
                 el.textContent = msg;
                 var messages = document.querySelector('#messages');
                 messages.appendChild(el);
-                if (messages.children.length > 5) {
+                if (messages.children.length > 10) {
                     messages.removeChild(messages.querySelector('*'));
                 }
             }
