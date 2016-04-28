@@ -78,7 +78,7 @@ Board.requestPort((err, port) => {
             io.on('reset', () => {
                 console.log('Robot resetted');
                 setupRobot();
-            })
+            });
             io.on('end', () => {
                 console.log('Server stopped');
                 endProgram();
