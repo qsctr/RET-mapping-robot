@@ -25,8 +25,10 @@ Board.requestPort((err, port) => {
         console.log('Arduino connected');
         console.log('Setting up robot...');
 
+        const motorPins = [3, 4, 5, 6];
         const pingPin = 7;
         let pingInterval;
+
         setupRobot();
 
         console.log('Finished setting up robot');
@@ -95,7 +97,7 @@ Board.requestPort((err, port) => {
         }
 
         function setupRobot() {
-
+            motorPins.forEach(pin => arduino.pinMode(pin, arduino.MODES.SERVO));
         }
 
         function startRobot() {
@@ -104,10 +106,12 @@ Board.requestPort((err, port) => {
                 value: 1,
                 pulseOut: 5
             }, ms => io.emit('ping', Math.round(ms / 29 / 2))), 500);
+            motorPins.forEach(pin => arduino.servoWrite(pin, 180));
         }
 
         function stopRobot() {
             clearInterval(pingInterval);
+            motorPins.forEach(pin => arduino.servoWrite(pin, 90));
         }
 
     });
