@@ -25,7 +25,7 @@ Board.requestPort((err, port) => {
         console.log('Arduino connected');
         console.log('Setting up robot...');
 
-        const ledPin = 13;
+        const pingPin = 7;
         let pingInterval;
         setupRobot();
 
@@ -78,6 +78,7 @@ Board.requestPort((err, port) => {
             });
 
             function endProgram() {
+                stopRobot();
                 server.close();
                 rl.close();
                 process.exit();
@@ -94,20 +95,18 @@ Board.requestPort((err, port) => {
         }
 
         function setupRobot() {
-            arduino.pinMode(ledPin, arduino.MODES.OUTPUT);
+
         }
 
         function startRobot() {
-            arduino.digitalWrite(ledPin, 1);
             pingInterval = setInterval(() => arduino.pingRead({
-                pin: 7,
+                pin: pingPin,
                 value: 1,
                 pulseOut: 5
-            }, ms => console.log('duration is ' + ms)), 500);
+            }, ms => io.emit('ping', Math.round(ms / 29 / 2))), 500);
         }
 
         function stopRobot() {
-            arduino.digitalWrite(ledPin, 0);
             clearInterval(pingInterval);
         }
 

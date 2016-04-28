@@ -6,7 +6,7 @@
         <style>
             body {
                 background-color: black;
-                color: green;
+                color: lightgreen;
                 font-family: monospace;
             }
             h1 {
@@ -39,7 +39,9 @@
         </div>
         <script src="/socket.io/socket.io.js"></script>
         <script>
+
             var socket = io();
+
             socket.on('message', addMessage);
 
             function addMessage(msg) {
@@ -51,6 +53,11 @@
                     messages.removeChild(messages.querySelector('*'));
                 }
             }
+
+            socket.on('ping', function (cm) {
+                addMessage('ping: ' + cm + 'cm');
+            });
+
         </script>
     </body>
 </html>
