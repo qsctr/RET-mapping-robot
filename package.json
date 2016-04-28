@@ -1,6 +1,6 @@
 {
     "name": "ret-mapper",
-    "version": "0.3.2",
+    "version": "0.3.3",
     "description": "Program for RET mapping robot",
     "main": "main.js",
     "author": "Bretton",
