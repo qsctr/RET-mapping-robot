@@ -67,23 +67,6 @@ Board.requestPort((err, port) => {
                 }
             });
 
-            io.on('start', () => {
-                console.log('Robot started');
-                startRobot();
-            });
-            io.on('stop', () => {
-                console.log('Robot stopped');
-                stopRobot();
-            });
-            io.on('reset', () => {
-                console.log('Robot resetted');
-                setupRobot();
-            });
-            io.on('end', () => {
-                console.log('Server stopped');
-                endProgram();
-            });
-
             function endProgram() {
                 stopRobot();
                 server.close();
@@ -102,20 +85,22 @@ Board.requestPort((err, port) => {
         }
 
         function setupRobot() {
-            loopValues(motors, pin => arduino.pinMode(pin, arduino.MODES.SERVO));
+            loopValues(motors, pin => arduino.servoConfig(pin, 1000, 2000));
         }
 
         function startRobot() {
-            pingInterval = setInterval(() => arduino.pingRead({
-                pin: pingPin,
-                value: 1,
-                pulseOut: 5
-            }, ms => io.emit('ping', Math.round(ms / 29 / 2))), 500);
-            loopValues(motors, pin => arduino.servoWrite(pin, 180));
+            // pingInterval = setInterval(() => arduino.pingRead({
+            //     pin: pingPin,
+            //     value: 1,
+            //     pulseOut: 5
+            // }, ms => io.emit('ping', Math.round(ms / 29 / 2))), 500);
+            loopValues(motors, pin => {
+                arduino.servoWrite(pin, 0);
+            });
         }
 
         function stopRobot() {
-            clearInterval(pingInterval);
+            // clearInterval(pingInterval);
             loopValues(motors, pin => arduino.servoWrite(pin, 90));
         }
 
