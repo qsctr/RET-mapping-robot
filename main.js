@@ -94,9 +94,7 @@ Board.requestPort((err, port) => {
             //     value: 1,
             //     pulseOut: 5
             // }, ms => io.emit('ping', Math.round(ms / 29 / 2))), 500);
-            loopValues(motors, pin => {
-                arduino.servoWrite(pin, 0);
-            });
+            loopValues(motors, pin => arduino.servoWrite(pin, 0));
         }
 
         function stopRobot() {
