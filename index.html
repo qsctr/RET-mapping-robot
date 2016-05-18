@@ -19,6 +19,9 @@
                 display: flex;
                 flex-direction: row;
             }
+            #left-container {
+                width: 400px;
+            }
             #right-container {
                 flex: 1;
                 display: flex;
@@ -31,7 +34,19 @@
     </head>
     <body>
         <div id="container">
-            <canvas id="map" height="600" width="600"></canvas>
+            <div id="left-container">
+                <!-- <canvas id="map" height="400" width="400"></canvas> -->
+                <h1>Pings</h1>
+                <p>36: <span id="p36"></span></p>
+                <p>38: <span id="p38"></span></p>
+                <p>42: <span id="p42"></span></p>
+                <p>44: <span id="p44"></span></p>
+                <p>46: <span id="p46"></span></p>
+                <p>48: <span id="p48"></span></p>
+                <p>50: <span id="p50"></span></p>
+                <p>52: <span id="p52"></span></p>
+                <div id="pings"></div>
+            </div>
             <div id="right-container">
                 <h1>Mapping robot</h1>
                 <div id="messages"></div>
@@ -54,8 +69,12 @@
                 }
             }
 
-            socket.on('ping', function (cm) {
-                addMessage('ping: ' + cm + 'cm');
+            socket.on('ping', function (info) {
+                console.log(info);
+                info.forEach(function (ping) {
+                    console.log(ping);
+                    document.querySelector('#p' + ping.pin).textContent = ping.cm;
+                });
             });
 
         </script>
