@@ -1,3 +1,5 @@
+// This program is for RET
+
 // This program both controls the robot and starts a server.
 // You can access the server at localhost:4000/ to view the
 // data sent from the robot. So far there is only ping info,
